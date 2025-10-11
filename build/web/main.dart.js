@@ -68072,7 +68072,7 @@ return A.N($async$u_,r)}}
 A.a1p.prototype={}
 A.FX.prototype={
 M(a){var s=null
-return new A.w_(B.Vg,"Iglesia de Dios",A.ahV(s,s,"Roboto",B.bH,B.k,s),!1,s)}}
+return new A.w_(B.Vg,"Iglesia Nazareno Pucar\xe1",A.ahV(s,s,"Roboto",B.bH,B.k,s),!1,s)}}
 A.vV.prototype={
 af(){return new A.LN(A.c([B.a5k,B.Kg,B.It,B.Iv,B.WZ],t.D))}}
 A.LN.prototype={
@@ -68213,7 +68213,7 @@ A.dC(r,$.h4(),!0)
 return new A.OV(new A.V5(A.auT(new A.eh(r))))}}
 A.OV.prototype={
 M(a){var s=null
-return A.q6(A.tn(A.c([A.WW(s,s,B.K6,s,s,new A.adz(),s,s,s)],t.D),s,s,!0,B.cS,s,1,!0,s,0,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.a58,s,s,s,1,s,!0),B.jb,new A.y6(new A.adA(this),this.d.P1(),s,t.L_),s)}}
+return A.q6(A.tn(A.c([A.WW(s,s,B.K6,s,s,new A.adz(),s,s,s)],t.D),s,s,!0,B.cS,s,1,!0,s,0,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.a59,s,s,s,1,s,!0),B.jb,new A.y6(new A.adA(this),this.d.P1(),s,t.L_),s)}}
 A.adz.prototype={
 $0(){},
 $S:0}
@@ -68278,7 +68278,7 @@ k=a0.i(0,c)!=null?A.e1(a0.i(0,c),!0,t.N):e
 j=a0.i(0,b)!=null?A.e1(a0.i(0,b),!0,t.N):e
 i=a0.i(0,"costo")
 h=a0.i(0,"autor")
-if(h==null)h="Iglesia de Dios"
+if(h==null)h="Iglesia Nazareno Pucar\xe1"
 g=a0.i(0,a)!=null?A.e1(a0.i(0,a),!0,t.N):e
 f=a0.i(0,"enlaceWeb")
 a0=a0.i(0,"permitirCompartir")
@@ -74762,8 +74762,8 @@ B.Pb=s([B.Kb,B.id,B.a5e],t.D)
 B.Z1=new A.q4(B.be,B.N,B.T,B.V,null,B.cK,null,0,B.Pb,null)
 B.JR=new A.cb(58283,"MaterialIcons",!1)
 B.K9=new A.d0(B.JR,20,B.aD,null,null)
-B.a59=new A.dn("Ubicaciones",null,B.lD,null,null,null,null)
-B.QU=s([B.K9,B.id,B.a59],t.D)
+B.a58=new A.dn("Ubicaciones",null,B.lD,null,null,null,null)
+B.QU=s([B.K9,B.id,B.a58],t.D)
 B.Z2=new A.q4(B.be,B.N,B.T,B.V,null,B.cK,null,0,B.QU,null)
 B.Z3=new A.xk(1333)
 B.l4=new A.xk(2222)
@@ -75309,7 +75309,7 @@ B.a54=new A.dn("Comunidad",null,null,null,null,null,null)
 B.a55=new A.dn("Iglesia",null,null,null,null,null,null)
 B.a57=new A.dn("Contenido",null,null,null,null,null,null)
 B.a2o=new A.i(!0,B.k,null,null,null,null,18,B.L,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a58=new A.dn("Iglesia de Dios",null,B.a2o,null,null,null,null)
+B.a59=new A.dn("Iglesia Nazareno Pucar\xe1",null,B.a2o,null,null,null,null)
 B.a5d=new A.dn("M\xe1s",null,null,null,null,null,null)
 B.a5g=new A.dn("Costo: ",null,B.F4,null,null,null,null)
 B.a7N=new A.a6T(0,"system")
