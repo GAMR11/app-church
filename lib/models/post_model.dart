@@ -62,7 +62,7 @@ class Post {
           ? List<String>.from(data['ubicaciones']) 
           : null,
       costo: data['costo'],
-      autor: data['autor'] ?? 'Iglesia de Dios',
+      autor: data['autor'] ?? 'Iglesia Nazareno Pucará',
       hashtags: data['hashtags'] != null 
           ? List<String>.from(data['hashtags']) 
           : null,
