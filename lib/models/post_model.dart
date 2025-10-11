@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
   final String id;
-  final String tipo; // 'evento', 'video', 'anuncio', etc.
+  final String tipo;
   final String titulo;
   final String? subtitulo;
   final String? descripcion;
+  final String? detalleCompleto;
   final String? imagenUrl;
   final String? videoUrl;
   final DateTime fechaPublicacion;
@@ -14,6 +15,9 @@ class Post {
   final List<String>? ubicaciones;
   final String? costo;
   final String autor;
+  final List<String>? hashtags;
+  final String? enlaceWeb;
+  final bool permitirCompartir;
 
   Post({
     required this.id,
@@ -21,6 +25,7 @@ class Post {
     required this.titulo,
     this.subtitulo,
     this.descripcion,
+    this.detalleCompleto,
     this.imagenUrl,
     this.videoUrl,
     required this.fechaPublicacion,
@@ -29,9 +34,11 @@ class Post {
     this.ubicaciones,
     this.costo,
     required this.autor,
+    this.hashtags,
+    this.enlaceWeb,
+    this.permitirCompartir = true,
   });
 
-  // Crear Post desde Firestore
   factory Post.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     
@@ -41,6 +48,7 @@ class Post {
       titulo: data['titulo'] ?? '',
       subtitulo: data['subtitulo'],
       descripcion: data['descripcion'],
+      detalleCompleto: data['detalleCompleto'],
       imagenUrl: data['imagenUrl'],
       videoUrl: data['videoUrl'],
       fechaPublicacion: (data['fechaPublicacion'] as Timestamp).toDate(),
@@ -54,17 +62,22 @@ class Post {
           ? List<String>.from(data['ubicaciones']) 
           : null,
       costo: data['costo'],
-      autor: data['autor'] ?? 'Iglesia.Casa',
+      autor: data['autor'] ?? 'Iglesia de Dios',
+      hashtags: data['hashtags'] != null 
+          ? List<String>.from(data['hashtags']) 
+          : null,
+      enlaceWeb: data['enlaceWeb'],
+      permitirCompartir: data['permitirCompartir'] ?? true,
     );
   }
 
-  // Convertir Post a Map para Firestore
   Map<String, dynamic> toMap() {
     return {
       'tipo': tipo,
       'titulo': titulo,
       'subtitulo': subtitulo,
       'descripcion': descripcion,
+      'detalleCompleto': detalleCompleto,
       'imagenUrl': imagenUrl,
       'videoUrl': videoUrl,
       'fechaPublicacion': Timestamp.fromDate(fechaPublicacion),
@@ -75,6 +88,9 @@ class Post {
       'ubicaciones': ubicaciones,
       'costo': costo,
       'autor': autor,
+      'hashtags': hashtags,
+      'enlaceWeb': enlaceWeb,
+      'permitirCompartir': permitirCompartir,
     };
   }
 }

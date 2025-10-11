@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
 import '../models/post_model.dart';
+import '../screens/post_detail_screen.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -10,23 +11,31 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+    return Material(
       color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header con avatar y autor
-          _buildHeader(),
+      child: InkWell(
+        onTap: () {
+          print('🔥 TAP DETECTADO en: ${post.titulo}');
           
-          // Imagen principal si existe
-          if (post.imagenUrl != null) _buildImage(),
-          
-          // Información del evento
-          _buildEventInfo(),
-          
-          const SizedBox(height: 8),
-        ],
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PostDetailScreen(post: post),
+            ),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              if (post.imagenUrl != null) _buildImage(),
+              _buildEventInfo(),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -38,7 +47,6 @@ class PostCard extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: Row(
         children: [
-          // Avatar
           Container(
             width: 40,
             height: 40,
@@ -54,7 +62,6 @@ class PostCard extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           
-          // Autor y fecha
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,8 +101,20 @@ class PostCard extends StatelessWidget {
   }
 
   Widget _buildImage() {
+    String imageUrl = post.imagenUrl!;
+    
+    if (kIsWeb) {
+      if (imageUrl.contains('unsplash.com') || 
+          imageUrl.contains('picsum.photos') ||
+          imageUrl.contains('firebasestorage.googleapis.com')) {
+        imageUrl = post.imagenUrl!;
+      } else {
+        imageUrl = 'https://corsproxy.io/?${Uri.encodeComponent(post.imagenUrl!)}';
+      }
+    }
+
     return Image.network(
-      post.imagenUrl!,
+      imageUrl,
       width: double.infinity,
       height: 300,
       fit: BoxFit.cover,
@@ -116,8 +135,6 @@ class PostCard extends StatelessWidget {
         );
       },
       errorBuilder: (context, error, stackTrace) {
-        print('Error cargando imagen: $error');
-        print('URL: ${post.imagenUrl}');
         return Container(
           height: 300,
           color: Colors.grey[200],
@@ -134,16 +151,6 @@ class PostCard extends StatelessWidget {
                 'Error al cargar imagen',
                 style: TextStyle(color: Colors.grey[600]),
               ),
-              const SizedBox(height: 4),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  error.toString(),
-                  style: const TextStyle(fontSize: 10, color: Colors.red),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                ),
-              ),
             ],
           ),
         );
@@ -157,7 +164,6 @@ class PostCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Fecha del evento si existe
           if (post.fechaEvento != null)
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -205,7 +211,6 @@ class PostCard extends StatelessWidget {
               ),
             )
           else
-            // Si no hay fecha de evento, solo mostrar título
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
@@ -217,7 +222,6 @@ class PostCard extends StatelessWidget {
               ),
             ),
           
-          // Subtítulo si existe
           if (post.subtitulo != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -230,7 +234,6 @@ class PostCard extends StatelessWidget {
               ),
             ),
           
-          // Descripción si existe
           if (post.descripcion != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -242,7 +245,6 @@ class PostCard extends StatelessWidget {
               ),
             ),
           
-          // Horarios y ubicaciones
           if (post.ubicaciones != null && post.ubicaciones!.isNotEmpty)
             Container(
               margin: const EdgeInsets.only(top: 8),

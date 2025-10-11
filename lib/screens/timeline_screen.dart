@@ -21,7 +21,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
         backgroundColor: const Color(0xFF1A1A1A),
         elevation: 0,
         title: const Text(
-          'Iglesia.Casa',
+          'Iglesia de Dios',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
