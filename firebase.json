@@ -1,0 +1,28 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "db-church",
+          "appId": "1:200768940489:android:ddd41a01cd9bc52f702018",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "db-church",
+          "configurations": {
+            "android": "1:200768940489:android:ddd41a01cd9bc52f702018",
+            "ios": "1:200768940489:ios:f2f8a0873bb9fc83702018",
+            "macos": "1:200768940489:ios:f2f8a0873bb9fc83702018",
+            "web": "1:200768940489:web:554ae71c6ba0ec1a702018",
+            "windows": "1:200768940489:web:c14fdc12e04724a3702018"
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}

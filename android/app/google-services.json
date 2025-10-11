@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "200768940489",
+    "project_id": "db-church",
+    "storage_bucket": "db-church.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200768940489:android:ddd41a01cd9bc52f702018",
+        "android_client_info": {
+          "package_name": "com.example.iginfo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYKRHdGeSNDa0W4QzxAn3vBLb40OKNRvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
