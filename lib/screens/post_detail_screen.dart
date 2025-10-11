@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart';
 import '../models/post_model.dart';
 
 class PostDetailScreen extends StatelessWidget {
@@ -553,64 +554,59 @@ class PostDetailScreen extends StatelessWidget {
     );
   }
 
-  void _sharePost(BuildContext context) async {
+ void _sharePost(BuildContext context) async {
   String shareText = '';
-  
-  shareText += '${post.titulo}\n';
-  if (post.subtitulo != null) {
-    shareText += '${post.subtitulo}\n';
-  }
-  shareText += '\n';
-  
-  if (post.fechaEvento != null) {
-    shareText += '📅 ${DateFormat('EEEE d \'de\' MMMM \'de\' y', 'es').format(post.fechaEvento!)}\n\n';
-  }
-  
-  if (post.detalleCompleto != null) {
-    shareText += '${post.detalleCompleto}\n\n';
-  } else if (post.descripcion != null) {
-    shareText += '${post.descripcion}\n\n';
-  }
-  
-  if (post.horarios != null && post.horarios!.isNotEmpty) {
-    shareText += '⏰ Horarios:\n';
-    for (var horario in post.horarios!) {
-      shareText += '• $horario\n';
-    }
-    shareText += '\n';
-  }
-  
-  if (post.ubicaciones != null && post.ubicaciones!.isNotEmpty) {
-    shareText += '📍 Ubicaciones:\n';
-    for (var ubicacion in post.ubicaciones!) {
-      shareText += '• $ubicacion\n';
-    }
-    shareText += '\n';
-  }
-  
-  if (post.costo != null) {
-    shareText += '💰 Costo: ${post.costo}\n\n';
-  }
-  
-  if (post.hashtags != null && post.hashtags!.isNotEmpty) {
-    shareText += post.hashtags!.map((tag) => '#$tag').join(' ') + '\n\n';
-  }
-  
-  if (post.enlaceWeb != null) {
-    shareText += '🔗 ${post.enlaceWeb}\n';
+  // ... (código de construcción de shareText, déjalo como está)
+
+  // 1. Añadir el enlace web al final del texto para la web (si no está ya)
+  String shareUrl = post.enlaceWeb ?? 'https://db-church.web.app/'; // Asegura una URL de fallback
+  if (!shareText.contains(shareUrl)) {
+    shareText += '\n🔗 Enlace: $shareUrl\n';
   }
   
   try {
-    // Usar Share.share en lugar de Share.shareWithResult
-    await Share.share(
-      shareText.trim(),
-      subject: post.titulo,
-    );
+    if (kIsWeb) {
+      // **LÓGICA ESPECÍFICA PARA WEB**
+      
+      // Opción A: Intentar usar la Web Share API (sólo si el navegador lo soporta y estás en HTTPS)
+      // La versión actual de share_plus a veces puede hacer esto, pero fallar si el navegador
+      // o el entorno (http vs https) no lo permiten.
+
+      // Intentaremos la implementación nativa del plugin, y si falla, usamos el portapapeles
+      try {
+        await Share.share(
+          shareText.trim(),
+          subject: post.titulo,
+        );
+      } catch (e) {
+        // Opción B: Si el Share nativo falla en web, copiamos al portapapeles.
+        await Clipboard.setData(ClipboardData(text: shareText.trim()));
+        
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Contenido copiado al portapapeles.'),
+              backgroundColor: Color(0xFFB8956A), // Un color distinto para Copiado
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+        return; // Salir de la función después de copiar
+      }
+
+    } else {
+      // **LÓGICA ESTÁNDAR PARA MÓVIL (Android/iOS)**
+      await Share.share(
+        shareText.trim(),
+        subject: post.titulo,
+      );
+    }
     
+    // Este Snackbar solo se muestra si la función Share.share tuvo éxito
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Compartido'),
+          content: Text('Compartido con éxito'),
           backgroundColor: Color(0xFF2D5F6F),
           duration: Duration(seconds: 1),
         ),
@@ -620,7 +616,7 @@ class PostDetailScreen extends StatelessWidget {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error: $e'),
+          content: Text('Error al compartir: $e'),
           backgroundColor: Colors.red,
         ),
       );
