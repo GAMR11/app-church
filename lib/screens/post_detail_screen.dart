@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/post_model.dart';
 
 class PostDetailScreen extends StatelessWidget {
@@ -15,47 +15,35 @@ class PostDetailScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
-          // AppBar con imagen de fondo
           _buildSliverAppBar(context),
           
-          // Contenido
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Tipo de publicación
                 _buildTipoBadge(),
-                
-                // Título y fecha
                 _buildHeader(),
                 
-                // Descripción completa
                 if (post.detalleCompleto != null)
                   _buildDetailDescription(),
                 
-                // Horarios
                 if (post.horarios != null && post.horarios!.isNotEmpty)
                   _buildHorarios(),
                 
-                // Ubicaciones
                 if (post.ubicaciones != null && post.ubicaciones!.isNotEmpty)
                   _buildUbicaciones(),
                 
-                // Costo
                 if (post.costo != null)
                   _buildCosto(),
                 
-                // Hashtags
                 if (post.hashtags != null && post.hashtags!.isNotEmpty)
                   _buildHashtags(),
                 
-                // Enlace web
                 if (post.enlaceWeb != null)
                   _buildEnlaceWeb(),
                 
                 const SizedBox(height: 24),
                 
-                // Botón compartir
                 if (post.permitirCompartir)
                   _buildShareButton(context),
                 
@@ -104,7 +92,6 @@ class PostDetailScreen extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   _buildImage(),
-                  // Gradiente oscuro en la parte inferior
                   Positioned(
                     bottom: 0,
                     left: 0,
@@ -196,7 +183,6 @@ class PostDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Fecha del evento (si existe)
           if (post.fechaEvento != null)
             Container(
               margin: const EdgeInsets.only(bottom: 12),
@@ -222,7 +208,6 @@ class PostDetailScreen extends StatelessWidget {
               ),
             ),
           
-          // Título
           Text(
             post.titulo,
             style: const TextStyle(
@@ -233,7 +218,6 @@ class PostDetailScreen extends StatelessWidget {
             ),
           ),
           
-          // Subtítulo
           if (post.subtitulo != null)
             Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -249,7 +233,6 @@ class PostDetailScreen extends StatelessWidget {
           
           const SizedBox(height: 8),
           
-          // Autor y fecha de publicación
           Row(
             children: [
               CircleAvatar(
@@ -287,6 +270,13 @@ class PostDetailScreen extends StatelessWidget {
   }
 
   Widget _buildDetailDescription() {
+    String text = post.detalleCompleto!
+        .replaceAll('\\n', '\n')
+        .replaceAll('\n\n\n', '\n\n')
+        .trim();
+    
+    List<String> lines = text.split('\n');
+    
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
@@ -296,13 +286,54 @@ class PostDetailScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey[200]!),
         ),
-        child: Text(
-          post.detalleCompleto!,
-          style: const TextStyle(
-            fontSize: 15,
-            height: 1.6,
-            color: Colors.black87,
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: lines.map((line) {
+            if (line.trim().isEmpty) {
+              return const SizedBox(height: 8);
+            }
+            
+            if (line.trim().startsWith('#')) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(
+                  line,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF2D5F6F),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              );
+            }
+            
+            if (line.contains('"') || line.startsWith('✨') || line.startsWith('📖')) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  line,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                    height: 1.4,
+                  ),
+                ),
+              );
+            }
+            
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(
+                line,
+                style: const TextStyle(
+                  fontSize: 15,
+                  height: 1.5,
+                  color: Colors.black87,
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
@@ -472,9 +503,7 @@ class PostDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
-        onTap: () {
-          // Aquí podrías abrir el enlace con url_launcher
-        },
+        onTap: () {},
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -524,25 +553,80 @@ class PostDetailScreen extends StatelessWidget {
     );
   }
 
-  void _sharePost(BuildContext context) {
-    final shareText = '''
-${post.titulo}
-${post.subtitulo ?? ''}
-
-${post.descripcion ?? ''}
-
-${post.enlaceWeb ?? ''}
-    '''.trim();
-
-    Clipboard.setData(ClipboardData(text: shareText));
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Información copiada al portapapeles'),
-        backgroundColor: Color(0xFF2D5F6F),
-      ),
-    );
+  void _sharePost(BuildContext context) async {
+  String shareText = '';
+  
+  shareText += '${post.titulo}\n';
+  if (post.subtitulo != null) {
+    shareText += '${post.subtitulo}\n';
   }
+  shareText += '\n';
+  
+  if (post.fechaEvento != null) {
+    shareText += '📅 ${DateFormat('EEEE d \'de\' MMMM \'de\' y', 'es').format(post.fechaEvento!)}\n\n';
+  }
+  
+  if (post.detalleCompleto != null) {
+    shareText += '${post.detalleCompleto}\n\n';
+  } else if (post.descripcion != null) {
+    shareText += '${post.descripcion}\n\n';
+  }
+  
+  if (post.horarios != null && post.horarios!.isNotEmpty) {
+    shareText += '⏰ Horarios:\n';
+    for (var horario in post.horarios!) {
+      shareText += '• $horario\n';
+    }
+    shareText += '\n';
+  }
+  
+  if (post.ubicaciones != null && post.ubicaciones!.isNotEmpty) {
+    shareText += '📍 Ubicaciones:\n';
+    for (var ubicacion in post.ubicaciones!) {
+      shareText += '• $ubicacion\n';
+    }
+    shareText += '\n';
+  }
+  
+  if (post.costo != null) {
+    shareText += '💰 Costo: ${post.costo}\n\n';
+  }
+  
+  if (post.hashtags != null && post.hashtags!.isNotEmpty) {
+    shareText += post.hashtags!.map((tag) => '#$tag').join(' ') + '\n\n';
+  }
+  
+  if (post.enlaceWeb != null) {
+    shareText += '🔗 ${post.enlaceWeb}\n';
+  }
+  
+  try {
+    // Usar Share.share en lugar de Share.shareWithResult
+    await Share.share(
+      shareText.trim(),
+      subject: post.titulo,
+    );
+    
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Compartido'),
+          backgroundColor: Color(0xFF2D5F6F),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    }
+  } catch (e) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+}
 
   String _getTimeAgo(DateTime date) {
     final now = DateTime.now();
