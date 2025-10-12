@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/sobre_tab.dart';
+import '../widgets/equipo_tab.dart'; // Agregar este import
 
 class IglesiaScreen extends StatelessWidget {
   const IglesiaScreen({Key? key}) : super(key: key);
@@ -80,7 +81,8 @@ class IglesiaScreen extends StatelessWidget {
         body: const TabBarView(
           children: [
             SobreTab(),
-            _PlaceholderTab(title: 'Equipo'),
+            EquipoTab(), // ← Cambiar aquí
+            // _PlaceholderTab(title: 'Equipo'),
             _PlaceholderTab(title: 'Donar'),
             _PlaceholderTab(title: 'Ministerios'),
             _PlaceholderTab(title: 'Academia'),
