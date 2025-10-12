@@ -76,9 +76,9 @@ class _SobreTabState extends State<SobreTab> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildBannerCarousel(churchInfo.imagenesCarrusel),
-              // _buildChurchName(churchInfo.nombre, churchInfo.slogan),
-              // _buildDescription(churchInfo.descripcion),
-              // _buildContactInfo(churchInfo),
+              _buildChurchName(churchInfo.nombre, churchInfo.slogan),
+              _buildDescription(churchInfo.descripcion),
+              _buildContactInfo(churchInfo),
               _buildSocialMedia(churchInfo.redesSociales),
               _buildHorarios(churchInfo.horarios),
               _buildQuienesSomos(churchInfo.quienesSomos),
@@ -171,95 +171,95 @@ class _SobreTabState extends State<SobreTab> {
     );
   }
 
-  // Widget _buildChurchName(String nombre, String slogan) {
-  //   return Container(
-  //     width: double.infinity,
-  //     padding: const EdgeInsets.all(24),
-  //     child: Column(
-  //       children: [
-  //         Text(
-  //           nombre,
-  //           style: const TextStyle(
-  //             fontSize: 32,
-  //             fontWeight: FontWeight.bold,
-  //             color: Color(0xFF2D5F6F),
-  //           ),
-  //         ),
-  //         const SizedBox(height: 8),
-  //         Text(
-  //           slogan,
-  //           textAlign: TextAlign.center,
-  //           style: TextStyle(
-  //             fontSize: 14,
-  //             color: Colors.grey[600],
-  //             height: 1.5,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildChurchName(String nombre, String slogan) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        children: [
+          Text(
+            nombre,
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2D5F6F),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            slogan,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // Widget _buildDescription(String descripcion) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 16),
-  //     child: Container(
-  //       padding: const EdgeInsets.all(16),
-  //       decoration: BoxDecoration(
-  //         color: Colors.grey[50],
-  //         borderRadius: BorderRadius.circular(12),
-  //       ),
-  //       child: Text(
-  //         descripcion,
-  //         style: const TextStyle(
-  //           fontSize: 15,
-  //           height: 1.6,
-  //           color: Colors.black87,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buildDescription(String descripcion) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey[50],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          descripcion,
+          style: const TextStyle(
+            fontSize: 15,
+            height: 1.6,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+    );
+  }
 
-  // Widget _buildContactInfo(ChurchInfo churchInfo) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(16),
-  //     child: Column(
-  //       children: [
-  //         _buildContactItem(Icons.link, churchInfo.sitioWeb, Colors.blue),
-  //         _buildContactItem(Icons.email, churchInfo.email, Colors.red),
-  //         _buildContactItem(Icons.phone, churchInfo.telefono, Colors.green),
-  //         if (churchInfo.telefono2 != null)
-  //           _buildContactItem(Icons.phone, churchInfo.telefono2!, Colors.green),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildContactInfo(ChurchInfo churchInfo) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _buildContactItem(Icons.link, churchInfo.sitioWeb, Colors.blue),
+          _buildContactItem(Icons.email, churchInfo.email, Colors.red),
+          _buildContactItem(Icons.phone, churchInfo.telefono, Colors.green),
+          if (churchInfo.telefono2 != null)
+            _buildContactItem(Icons.phone, churchInfo.telefono2!, Colors.green),
+        ],
+      ),
+    );
+  }
 
-  // Widget _buildContactItem(IconData icon, String text, Color color) {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(bottom: 12),
-  //     child: Row(
-  //       children: [
-  //         Container(
-  //           padding: const EdgeInsets.all(8),
-  //           decoration: BoxDecoration(
-  //             color: color.withOpacity(0.1),
-  //             borderRadius: BorderRadius.circular(8),
-  //           ),
-  //           child: Icon(icon, color: color, size: 20),
-  //         ),
-  //         const SizedBox(width: 12),
-  //         Expanded(
-  //           child: Text(
-  //             text,
-  //             style: TextStyle(fontSize: 14, color: Colors.grey[800]),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildContactItem(IconData icon, String text, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildSocialMedia(Map<String, String> redesSociales) {
     final Map<String, Map<String, dynamic>> socialConfig = {
