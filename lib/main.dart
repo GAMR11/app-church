@@ -5,10 +5,12 @@ import 'firebase_options.dart';
 
 // Importar pantallas
 import 'screens/timeline_screen.dart';
+import 'screens/biblia_screen.dart'; // Agregar import
 import 'screens/iglesia_screen.dart';
 import 'screens/comunidad_screen.dart';
 import 'screens/contenido_screen.dart';
 import 'screens/mas_screen.dart';
+
 
 // Importar widgets
 import 'widgets/bottom_nav_bar.dart';
@@ -59,7 +61,8 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const TimelineScreen(),
     const IglesiaScreen(),
-    const ComunidadScreen(),
+     const BibliaScreen(), // ← Cambiar aquí
+    // const ComunidadScreen(),
     const ContenidoScreen(),
     const MasScreen(),
   ];
