@@ -42,7 +42,7 @@ class CustomBottomNavBar extends StatelessWidget {
               _buildNavItem(
                 index: 2,
                 icon: Icons.people_outline,
-                label: 'Comunidad',
+                label: 'Biblia',
               ),
               _buildNavItem(
                 index: 3,
