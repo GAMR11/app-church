@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/videos_tab.dart';
 import '../widgets/playlist_tab.dart';
+import '../widgets/fotos_tab.dart';
 
 class ContenidoScreen extends StatelessWidget {
   const ContenidoScreen({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class ContenidoScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: const Color(0xFF1A1A1A),
           title: const Text(
-            'Iglesia.Casa',
+            'Iglesia Nazareno Pucará',
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
@@ -76,7 +77,7 @@ class ContenidoScreen extends StatelessWidget {
           children: [
             VideosTab(),
             PlaylistTab(),
-            _PlaceholderTab(title: 'Fotos'),
+            FotosTab(),
             _PlaceholderTab(title: 'Biblioteca'),
             _PlaceholderTab(title: 'Devocionales'),
             _PlaceholderTab(title: 'Artículos'),
